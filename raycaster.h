@@ -6,6 +6,7 @@
 class Raycaster {
 public:
     Raycaster(int w, int h): _w(w), _h(h) {}
+    ~Raycaster()
     int* getView();
 private:
     int _w;

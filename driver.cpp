@@ -7,7 +7,7 @@
 #endif
 
 SDL_Window *window;
-SDL_Renderer *renderer;
+SDL_Renderer *renderer;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 
 //REMOVE
 SDL_Point center = {.x = 100, .y = 100};
@@ -18,6 +18,7 @@ const int w = 1000;
 const int h = 1000;
 
 void redraw() {
+
   SDL_SetRenderDrawColor(renderer, 92, 94, 117, 1);
   SDL_RenderClear(renderer);
 
