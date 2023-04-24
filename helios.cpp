@@ -22,14 +22,16 @@ void redraw() {
   SDL_SetRenderDrawColor(renderer, 92, 94, 117, 1);
   SDL_RenderClear(renderer);
 
+  Volume* volume = new Volume("fake scan file");
+  Raycaster raycaster(w, h, volume);
+
   // create a texture from the 2D array
-  Raycaster raycaster(w, h);
   SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, w, h);
   void* pixels_ptr;
   int pitch = w;
-  int *pixels = raycaster.getView();
+  //int *pixels = raycaster.getView();
   SDL_LockTexture(texture, NULL, &pixels_ptr, &pitch);
-  memcpy(pixels_ptr, pixels, w * h * sizeof(int));
+  //memcpy(pixels_ptr, pixels, w * h * sizeof(int));
   SDL_UnlockTexture(texture);
 
   // draw the texture to the screen
