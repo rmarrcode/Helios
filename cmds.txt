@@ -1,0 +1,2 @@
+emcc --bind driver.cpp raycaster.cpp volume.cpp -o driver.html -s USE_SDL=2 -s USE_SDL_GFX=2 -s ALLOW_MEMORY_GROWTH
+clang driver.cpp -o driver -lSDL2 -lSDL2_gfx 

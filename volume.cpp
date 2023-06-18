@@ -1,47 +1,52 @@
 #include "volume.h"
+#include <iostream>
+
 
 Volume::Volume(std::string path_to_volume) {
+    _scene_vars.insert(std::pair<std::string, int>("time", 1));
+    _scene_vars.insert(std::pair<std::string, int>("depth", 1));
+    _scene_vars.insert(std::pair<std::string, int>("rows", 1));
+    _scene_vars.insert(std::pair<std::string, int>("cols", 1));
+    _scene_vars.insert(std::pair<std::string, int>("A", 1));
+    _scene_vars.insert(std::pair<std::string, int>("B", 1));
+    _scene_vars.insert(std::pair<std::string, int>("C", 1));
+    _scene_vars.insert(std::pair<std::string, int>("L", 99));
+
     int time = _scene_vars["time"];
     int depth = _scene_vars["depth"];
     int rows = _scene_vars["rows"];
     int cols = _scene_vars["cols"];
 
-    _voxels = new int[time * depth * rows * cols];
-    for (int i = 0; i < time*depth*rows*cols; i++) {
-        int rng = rand() % 10;
-        if (rng == 0) {
-            _voxels[i] = (100 << 24) | (0 << 16) | (0 << 8);
-        }
-        if (rng == 1) {
-            _voxels[i] = (0 << 24) | (100 << 16) | (0 << 8);
-        }
-        if (rng == 2) {
-            _voxels[i] = (0 << 24) | (0 << 16) | (100 << 8);
-        }
-    }
+    std::vector<long double> scene_dims_position;
+    scene_dims_position.push_back(0);
+    scene_dims_position.push_back(0);
+    scene_dims_position.push_back(0);
 
-    for (int r = 0; r < rows; r++) {
-        for (int c = 0; c < cols; c++) {
-            for(int d = 0; d < depth; d++) {
-                Cube cube;
-                cube.position = { double((rows/-2)+r), double((cols/-2)+c), double(depth/-2)+d};
-                cube.side_length = 1;
-                _voxel_position[{r, c, d}] = cube;
-            }
-        }
-    }
+    _scene_dims.side_length = _scene_vars["L"];
+    //ON HEAP???
+    _scene_dims.position.push_back(0);
+    _scene_dims.position.push_back(0);
+    _scene_dims.position.push_back(0);
 
-    _voxels_dims.position = {0,0,0};
-    _voxels_dims.side_length = _scene_vars["L"];
+    //populate voxels
+    _voxels = new Voxel[time * depth * rows * cols];
+    for (int i = 0; i < time * depth * rows * cols; i++) {
+        _voxels[i].color = (90 << 24) | (0 << 16) | (0 << 8);
+        _voxels[i].cube.position.resize(3);
+        _voxels[i].cube.position[0] = 0;
+        _voxels[i].cube.position[1] = 0;
+        _voxels[i].cube.position[2] = 0;
+        _voxels[i].cube.side_length = 5;
+    }
 }
 
-int* Volume::getVolumeT(int t) {
+Voxel* Volume::getVolumeT(int t) {
     int time = _scene_vars["time"];
     int depth = _scene_vars["depth"];
     int rows = _scene_vars["rows"];
     int cols = _scene_vars["cols"];
 
-    int* voxels_t = new int[depth*rows*cols];
-    std::memcpy(voxels_t, &(_voxels[depth*rows*cols*time]), (depth*rows*cols*time) * sizeof(int));
+    Voxel* voxels_t = new Voxel[depth*rows*cols];
+    std::memcpy(voxels_t, &(_voxels[depth*rows*cols*t]), (depth*rows*cols) * sizeof(Voxel));
     return voxels_t;
 }
